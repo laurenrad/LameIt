@@ -1,0 +1,77 @@
+   LameIt
+   ~~~~~~
+   Purpose: Encode mp3 files (or decode) using LAME
+
+   Notes:
+      This frontend requires Lame$Dir to be set to a path to the LAME
+      executable. For full information, see LAME help (lame --fullhelp).
+      Defaults for icons and menu entries refer to LameIt's defaults,
+      LAME uses its own when not specified. See LAME docs for details.
+
+      Currently, the output file will only have a Text type, set type
+      to AMPEG manually once encoded.
+
+      Multiple input files can be specified, but this will only work with
+      gapless encoding; for this, the 'Nogap' and 'Nogap out dir' menu
+      options must be set.
+
+      This is mostly for educational purposes and isn't well tested.
+      However, feel free to drop me a line at lauren <at> cybertapes <dot> com.
+
+   Setup:
+      Icon                       Action/Meaning                       Default
+      ----                       --------------                       -------
+      Files                      Name(s) of file(s) to encode.          nil
+      CBR                        Encode using constant bitrate.         off
+      ABR                        Encode using average bitrate.          off
+      VBR                        Encode using a variable bitrate.       on
+      Bitrate                    For CBR or ABR, set bitrate.           128
+      Quality                    For VBR, set quality value (0-9)       4
+      Raw Input	                 Use raw PCM input file. This will      off
+                                 enable menu options which allow 
+                                 the PCM format to be specified.
+      Decode                     Reverse operation (mp3->wav).          off
+      Add ID3                    Shows additional controls for
+                                 adding ID3 metadata.                   off
+      Track                      Set ID3 track number.                  nil
+      Title                      Set ID3 track title.                   nil
+      Album                      Set ID3 album.                         nil
+      Artist                     Set ID3 artist.                        nil
+      Comment                    Set ID3 comment.                       nil
+      Genre                      Set ID3 genre.                         nil
+      Year                       Set ID3 year.                          nil
+
+   Menu:
+      Entry                      LAME Option                          Default
+      -----                      --------------                       -------
+      Scale             =>       --scale <arg>                          nil
+      Swap Channel               --swap-channel                         off
+      Ignore Length              --ignorelength                         off
+      Gain              =>       --gain                                 nil
+      Nogap                      --nogap                                off
+      Nogap out dir     =>       --nogapout <dir>                       nil
+      Input freq*       =>       -s <sfreq>                             nil
+      Unsigned input*            --unsigned                             off
+      Input bit width*  =>       --bitwidth <w>                         nil
+      Byte swap input*           -x                                     off
+      Big endian input*          --big-endian                           off
+      Downmix input*             -a                                     off
+      Detect clipping            --clipdetect                           on
+      No wav header**            -t                                     off
+      Verbose                    --verbose                              on
+      QVal              =>       -q <arg>                               3
+      VBR minimum       =>       -b <bitrate>                           nil
+      VBR maximum       =>       -B <bitrate>                           nil
+      Strict VBR min             -F                                     off
+      Error protection           -p                                     off
+      Strict ISO                 --strictly-enforce-ISO                 off
+      Lopass freq       =>       --lowpass <freq>                       nil
+      Lopass width      =>       --lowpass-width <width>                nil
+      Hipass freq       =>       --highpass <freq>                      nil
+      Hipass width      =>       --highpass-width <width>               nil
+      Resample          =>       --resample <sfreq>                     nil
+      Ignore tag errors          --ignore-tag-errors                    off
+      Others                     Add other flags to command line.       nil
+      
+      *  Only enabled with RAW input selected
+      ** Only enabled with decode enabled.

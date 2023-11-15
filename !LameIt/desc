@@ -1,0 +1,117 @@
+
+tool_details_start
+   name	"LameIt";
+   command_is "<Lame$Dir>.lame";
+   version "0.10 (14-Nov-23)";
+   wimpslot 32k;
+   has_extended_cmdline;
+tool_details_end
+
+metaoptions_start
+   has_auto_run	on;
+   has_auto_save ^.leafname"_out" from icn 5;
+   has_text_window;
+   has_summary_window;
+metaoptions_end
+
+fileoutput_start
+   output_dft_string "Test";
+   output_dft_is produces_output;
+fileoutput_end
+
+dbox_start
+   icons_start
+      icn 4 maps_to ""; # Group box: Encoding
+      icn 5 maps_to string not_saved; # Writable: file
+      #icn 14 maps_to "-V" string not_saved;
+      icn 6  maps_to "--cbr"; # Radio: CBR
+      icn 8  maps_to ""; # Group box label: Encoding
+      icn 9  maps_to "--abr"; # Radio: ABR
+      icn 10 maps_to "-V"; # Radio: VBR
+      icn 11 maps_to string not_saved; # Writable: Bitrate
+      icn 12 maps_to ""; # Label: Bitrate
+      icn 13 maps_to ""; # Label: Quality
+      icn 14 maps_to string not_saved; # Writable: Quality
+      icn 15 increases icn 14 max 9; # Adjuster: Quality up
+      icn 16 decreases icn 14; # Adjuster: Quality down
+      icn 17 extends from icn 17 to icn 2;
+      icn 18 maps_to "-r";
+      icn 19 maps_to "--decode";
+      icn 20 maps_to "--tn " quoted_string not_saved; # Writable: ID3 Track
+      icn 21 maps_to "--tt " quoted_string not_saved; # Writable: ID3 Title
+      icn 22 maps_to "--tl " quoted_string not_saved; # Writable: ID3 Album
+      icn 23 maps_to "--ta " quoted_string not_saved; # Writable: ID3 Artist
+      icn 25 maps_to "--tc " quoted_string not_saved; # Writable: ID3 Comment
+      icn 26 maps_to "--tg " quoted_string not_saved; # Writable: ID3 Genre
+      icn 27 maps_to "--ty " quoted_string not_saved; # Writable: ID3 Year
+   icons_end
+
+   defaults
+      icn 10 on;
+
+   imports_start
+      drag_to icn 5 inserts icn 5 separator_is " ";
+      drag_to any inserts icn 5 separator_is " ";
+      drag_to iconbar inserts icn 5 separator_is " ";
+   imports_end
+dbox_end
+
+menu_start
+   "Scale"		maps_to "--scale" sub_menu "Scale by" 20;
+   "Swap Channel"       maps_to "--swap-channel";
+   "Ignore Length"	maps_to "--ignorelength";
+   "Gain"		maps_to "--gain " sub_menu "Gain" 10;
+   "Nogap"		maps_to "--nogap";
+   "Nogap out dir"	maps_to "--nogapout " sub_menu "Output Dir" 256;
+   "Input freq"		maps_to "-s " sub_menu "Sampling freq" 10;
+   "Unsigned input"	maps_to "--unsigned";
+   "Input bit width"	maps_to "--bitwidth " sub_menu "Bit width" 10;
+   "Byte swap input"	maps_to "-x";
+   "Big endian input"	maps_to "--big-input";
+   "Downmix input"	maps_to "-a";
+   "Detect clipping"	maps_to "--clipdetect";
+   "No wav header"	maps_to "-t";
+   "Verbose"		maps_to "--verbose";
+   "QVal"		maps_to "-q " sub_menu "Noise shaping" 3;
+   "VBR minimum"	maps_to "-b " sub_menu "Minimum kbps" 5;
+   "VBR maximum"	maps_to "-B " sub_menu "Maximum kbps" 5;
+   "Strict VBR min"	maps_to "-F";
+   "Error protection"	maps_to "-p";
+   "Strict ISO"		maps_to "--strictly-enforce-ISO";
+   "Lopass freq"	maps_to "--lowpass " sub_menu "Lopass freq" 10;
+   "Lopass width"	maps_to "--lowpass-width " sub_menu "Lopass Q" 10;
+   "Hipass freq"	maps_to "--highpass " sub_menu "Hipass freq" 10;
+   "Hipass width"	maps_to "--highpass-width " sub_menu "Hipass Q" 10;
+   "Resample"		maps_to "--resample " sub_menu "Resample freq" 10;
+   "Ignore tag errors"	maps_to "--ignore-tag-errors";
+   "Others"		maps_to "" sub_menu "Others" 128;
+
+   defaults
+      menu 1 off,
+      menu 13 on,
+      menu 15 on,
+      menu 16 on sub_menu "3";
+menu_end
+
+rules_start
+   # These were originally supposed to grey out labels too, but it was acting
+   # weird with defaults and the easiest workaround was to not do that...
+   # Grey out Quality if CBR or ABR are selected
+   icn 6, icn 9 excludes icn 14, icn 15, icn 16;
+   # Grey out Bitrate if VBR is selected
+   icn 10 excludes icn 11;
+   # Since radio button type must be Click, emulate ESG
+   icn 6 deselects icn 9, icn 10;
+   icn 9 deselects icn 6, icn 10;
+   icn 10 deselects icn 6, icn 9;
+   # Decode greys out all encoding options
+   icn 19 on excludes icn 4, icn 6, icn 8, icn 9, icn 10, icn 12, icn 13;
+   icn 19 on excludes icn 14, icn 15, icn 16;
+   # If raw is unchecked, disable menu entries for raw input
+   icn 18 off excludes menu 8, menu 9, menu 10, menu 11, menu 12, menu 13;
+   # If decode is unchecked disable no wav header menu entry
+   icn 19 off excludes menu 15;
+rules_end
+
+
+order_is menu 5, icn 6, icn 9, icn 11, icn 10, icn 14, icn 18, icn 19, icn 5, output;

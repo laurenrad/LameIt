@@ -1,0 +1,14 @@
+If "<System$Path>" = "" Then Error 0 System resources were not found
+WimpSlot -Min 32k -Max 32k
+Set LameIt$Dir <Obey$Dir>
+RMEnsure UtilityModule 3.10 Error This application only runs on RISC OS 3.10 or later
+RMEnsure SharedCLibrary 5.34 Error This application requires CLib 5.34 or later
+RMEnsure FPEmulator 2.87 Error This application requires the FP Emulator module (is it unplugged?)
+RMEnsure TaskWindow 0.47 Error This application requires the Task Window module (is it unplugged?)
+RMEnsure FrontEnd 0 System:modules.frontend
+RMEnsure FrontEnd 1.21 Error This application requires version 1.21 of the FrontEnd module
+RMEnsure DDEUtils 0 System:modules.ddeutils
+RMEnsure DDEUtils 1.52 Error This application requires version 1.52 of the DDEUtils module
+
+|Alias lamefront <Lame$Dir>.lame
+FrontEnd_Start -app LameIt -desc <LameIt$Dir>.desc
